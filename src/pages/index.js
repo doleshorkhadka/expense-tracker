@@ -13,7 +13,7 @@ export default function Home() {
             <button>2020</button>
           </div>
           <div></div>
-          <div></div>
+          <div className="h-250"></div>
         </section>
       </div>
     </main>
