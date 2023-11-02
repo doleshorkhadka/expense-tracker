@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-function ExpenseForm({ formCancel }) {
+function ExpenseForm({ expenseFormStsFalse }) {
   const {
     register,
     handleSubmit,
@@ -11,7 +11,7 @@ function ExpenseForm({ formCancel }) {
   const onSubmit = (data) => console.log(data);
   const onCancel = () => {
     reset();
-    formCancel();
+    expenseFormStsFalse();
   };
 
   const Title = (
@@ -20,7 +20,7 @@ function ExpenseForm({ formCancel }) {
   const Amount = (
     <input defaultValue="title" {...register("amount", { required: true })} />
   );
-  const Date = (
+  const RegisterDate = (
     <input defaultValue="title" {...register("date", { required: true })} />
   );
 
@@ -28,7 +28,7 @@ function ExpenseForm({ formCancel }) {
     <form onSubmit={handleSubmit(onSubmit)} className="p-20 flex flex-wrap">
       {Title}
       {Amount}
-      {Date}
+      {RegisterDate}
       <div>
         <button className=" text-black" onClick={onCancel}>
           Cancel
