@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-function NewExpense(props) {
+function ExpenseForm({ formCancel }) {
   const {
     register,
     handleSubmit,
@@ -20,13 +20,21 @@ function NewExpense(props) {
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="p-20">
       {Title}
       {Amount}
       {Date}
-      <input value="Add Expense" type="submit" />
+      <button className=" text-black" onClick={formCancel}>
+        Cancel
+      </button>
+      <button
+        className=" bg-purple-950 m-5 sm:p-5 p-2 rounded-lg"
+        type="submit"
+      >
+        Add New Expense
+      </button>
     </form>
   );
 }
 
-export default NewExpense;
+export default ExpenseForm;
