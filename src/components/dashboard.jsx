@@ -1,8 +1,10 @@
 import { useState } from "react";
 import ExpenseForm from "./new-expense";
+import Login from "./Auth/Login";
 
 function Dashboard() {
   let [formSts, isFormSts] = useState(false);
+  let [userSts, isUserSts] = useState(true);
 
   const expenseFormStsTrue = () => {
     isFormSts(true);
@@ -32,6 +34,13 @@ function Dashboard() {
         <div></div>
         <div className="h-250"></div>
       </section>
+      {userSts && (
+        <div className=" fixed left-1/2 top-1/2 z-50 flex h-screen w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center gap-8 text-center text-black backdrop-blur-sm">
+          <div className=" flex w-2/5 items-center justify-center rounded-2xl bg-white shadow-lg">
+            <Login />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
