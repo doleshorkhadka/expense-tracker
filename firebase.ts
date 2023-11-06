@@ -1,6 +1,6 @@
-import { initializeApp, getApps } from "firebase/app";
+import { getApps, initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { EmailAuthProvider, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcoOC9LFjtCGwGKT3Y8vQogJ3WQClDOlE",
@@ -14,9 +14,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 let app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const provider = new EmailAuthProvider();
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-export { provider, auth };
+export { auth };
 export default db;
+
+// export const db = getFirestore();

@@ -1,19 +1,17 @@
 import { useState } from "react";
 import AuthForm from "./AuthForm";
 
-const Login = ({ modalStatus }) => {
-  let [signupStatus, setSignupSts] = useState(false);
+const Login = ({ modalStatusFalse }) => {
+  let [signupStatus, setSignupStatus] = useState(false);
 
   const signupFromStsTrue = () => {
-    setSignupSts(true);
+    setSignupStatus(true);
   };
   const signupFromStsFalse = () => {
-    setSignupSts(false);
+    setSignupStatus(false);
   };
   return (
     <>
-      {/* Heading */}
-
       {/* Wrapper */}
       <div className="mt-6 px-8">
         <h5 className=" flex items-center justify-center text-[33px] font-semibold leading-[140%] tracking-[0.99px] p-3 ">
@@ -22,7 +20,7 @@ const Login = ({ modalStatus }) => {
         {/* Form -> we are reusing the AuthForm, making it dynamic with a prop called 'isLoginForm', if set false, it will display signup form */}
         <AuthForm
           isLoginForm={true}
-          modalStatus={modalStatus}
+          modalStatusFalse={modalStatusFalse}
           signupStatus={signupStatus}
         />
 

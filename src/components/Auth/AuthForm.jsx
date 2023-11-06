@@ -1,19 +1,23 @@
 import { useForm } from "react-hook-form";
 import FormInput from "./FormInput";
-import { LoginUser } from "@/utils/auth";
+import { LoginUser, SignupUser } from "@/utils/auth";
+import { auth } from "../../../firebase";
 
-const AuthForm = ({ isLoginForm = false, modalStatus, signupStatus }) => {
+const AuthForm = ({ isLoginForm = false, modalStatusFalse, signupStatus }) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    LoginUser(data);
-  };
+    signupStatus || LoginUser(data);
+    signupStatus && SignupUser(data);
 
-  console.log(watch("example")); // watch input value by passing the name of it
+    if (auth.currentUser) {
+      console.log("auth is current user", auth.currentUser);
+      modalStatusFalse();
+    }
+  };
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
@@ -26,17 +30,16 @@ const AuthForm = ({ isLoginForm = false, modalStatus, signupStatus }) => {
         register={register}
         registerName="email"
         required={true}
-        errors={errors}
       />
       {errors.email && <span className="pl-2 text-red-500">required</span>}
 
       {signupStatus && (
         <>
           <FormInput
-            type="email"
-            placeholder="Re-enter email"
+            type="username"
+            placeholder="Username "
             register={register}
-            registerName="reEmail"
+            registerName="username"
             required={true}
           />
           {errors.email && <span className="pl-2 text-red-500">required</span>}
@@ -49,7 +52,6 @@ const AuthForm = ({ isLoginForm = false, modalStatus, signupStatus }) => {
         register={register}
         registerName="password"
         required={true}
-        errors={errors}
       />
       {errors.password && <span className="pl-2 text-red-700">required</span>}
 
@@ -61,7 +63,6 @@ const AuthForm = ({ isLoginForm = false, modalStatus, signupStatus }) => {
             register={register}
             registerName="rePassword"
             required={true}
-            errors={errors}
           />
           {errors.password && (
             <span className="pl-2 text-red-700">required</span>
