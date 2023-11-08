@@ -24,8 +24,8 @@ function ExpenseForm({ expenseFormStsFalse }) {
 
   const InputField = (label, registerName, type, defaultValue) => {
     return (
-      <div className="w-2/5 h-10 flex flex-col">
-        <label className=" font-bold text-lg">{label}</label>
+      <div className="w-2/5 h-10 flex flex-col text-lg">
+        <label className=" font-bold ">{label}</label>
         <input
           className=" rounded-md p-2"
           type={type}
@@ -46,8 +46,8 @@ function ExpenseForm({ expenseFormStsFalse }) {
         {InputField("Date", "date", "date")}
       </div>
 
-      <div className="w-full text-right">
-        <button className=" text-black " onClick={onCancel}>
+      <div className="w-full text-right text-lg">
+        <button className=" text-black  " onClick={onCancel}>
           Cancel
         </button>
         <button

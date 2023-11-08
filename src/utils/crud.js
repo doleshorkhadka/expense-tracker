@@ -3,14 +3,16 @@ import {
   addDoc,
   deleteDoc,
   doc,
-  getDocs,
+  query,
+  where,
+  onSnapshot,
 } from "firebase/firestore";
-import db from "../../firebase";
-import { v4 } from "uuid";
+import db, { auth } from "../../firebase";
+import getYear from "./services";
 
 export const addExpense = async (data) => {
   const payload = {
-    id: v4(),
+    id: auth.currentUser.uid,
     ...data,
   };
   console.log("====================================");
@@ -32,21 +34,28 @@ export const deleteExpense = async (id) => {
   }
 };
 
-export const getExpenses = async (setExpenses) => {
+export const getExpenses = async (setExpenses, setDateYear, selectedYear) => {
   try {
-    const collectionRef = collection(db, "expense");
-    const querySnapshot = await getDocs(collectionRef);
+    const collectionRef = query(
+      collection(db, "expense"),
+      where("id", "==", auth.currentUser.uid)
+    );
+    onSnapshot(collectionRef, (snapshot) => {
+      let docs = [];
+      let year = ["All"];
+      snapshot.docs.map((doc) => {
+        let yearValue = getYear(doc.data().date);
+        if (!selectedYear) selectedYear = "All";
+        if (selectedYear == "All" || yearValue == selectedYear) {
+          docs.push({ ...doc.data(), id: doc.id });
+        }
 
-    console.log("====================================");
-    console.log(querySnapshot.docs);
-    console.log("====================================");
-    // (doc) => {
-    //   const docs = [];
-    //   doc.forEach((d) => {
-    //     docs.push({ ...d.data(), id: d.id });
-    //   });
-    //   setExpenses(docs);
-    // };
+        if (year.indexOf(yearValue) == -1) year.push(yearValue);
+      });
+      setExpenses(docs);
+
+      setDateYear(year);
+    });
   } catch (err) {
     console.error(err);
     setExpenses([]);
