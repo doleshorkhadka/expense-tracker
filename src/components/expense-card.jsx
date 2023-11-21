@@ -1,4 +1,8 @@
-const ExpenseCard = ({ data }) => {
+import { RiDeleteBin2Fill } from "react-icons/ri";
+import { AiTwotoneEdit } from "react-icons/ai";
+import { deleteExpense } from "@/utils/crud";
+
+const ExpenseCard = ({ data, expenseFormStsTrue }) => {
   const date = new Date(data.date);
   return (
     <div className=" flex items-center justify-between bg-gray-600 rounded-md m-3">
@@ -12,7 +16,26 @@ const ExpenseCard = ({ data }) => {
         </div>
         <p className="text-2xl font-bold overflow-clip">{data.title}</p>
       </div>
-      <p className=" bg-purple-950 px-3 py-2 rounded-md m-2 border font-bold">{`$ ${data.amount}`}</p>
+      <div className="flex">
+        <p className=" bg-purple-950 px-3 py-2 rounded-md m-2 border font-bold">{`$ ${data.amount}`}</p>
+        <div className="m-3">
+          <button
+            onClick={() => {
+              deleteExpense(data.id);
+            }}
+          >
+            <RiDeleteBin2Fill className=" hover:text-red-500 " />
+          </button>
+          <button
+            className="block hover:text-green-500 "
+            onClick={() => {
+              expenseFormStsTrue(data);
+            }}
+          >
+            <AiTwotoneEdit />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

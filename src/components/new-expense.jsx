@@ -1,17 +1,15 @@
-import { addExpense } from "@/utils/crud";
+import { addExpense, editExpense } from "@/utils/crud";
 import { useForm } from "react-hook-form";
 
-function ExpenseForm({ expenseFormStsFalse }) {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    // watch,
-    // formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => {
+const ExpenseForm = ({
+  expenseFormStsFalse,
+  data = { id: "", title: "", amount: "", date: "" },
+  isEditMode = false,
+}) => {
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = (formData) => {
     try {
-      addExpense(data);
+      isEditMode ? addExpense(formData) : editExpense(data.id, formData);
       reset();
     } catch (error) {
       console.log(error);
@@ -27,7 +25,8 @@ function ExpenseForm({ expenseFormStsFalse }) {
       <div className="w-2/5 h-10 flex flex-col text-lg">
         <label className=" font-bold ">{label}</label>
         <input
-          className=" rounded-md p-2"
+          defaultValue={defaultValue}
+          className={`rounded-md ${type === "date" ? "py-6 px-2" : "p-2"} `}
           type={type}
           {...register(registerName, { required: true })}
         />
@@ -41,9 +40,9 @@ function ExpenseForm({ expenseFormStsFalse }) {
       className="p-10 flex flex-wrap gap-2 text-black"
     >
       <div className="w-full flex flex-wrap gap-7">
-        {InputField("Title", "title", "name")}
-        {InputField("Amount", "amount", "number")}
-        {InputField("Date", "date", "date")}
+        {InputField("Title", "title", "name", data.title)}
+        {InputField("Amount", "amount", "number", data.amount)}
+        {InputField("Date", "date", "date", data.date)}
       </div>
 
       <div className="w-full text-right text-lg">
@@ -54,11 +53,11 @@ function ExpenseForm({ expenseFormStsFalse }) {
           className=" bg-purple-950 m-5 sm:p-5 p-2 text-white rounded-lg"
           type="submit"
         >
-          Add New Expense
+          {isEditMode ? "Add New Expense" : "Update Expense"}
         </button>
       </div>
     </form>
   );
-}
+};
 
 export default ExpenseForm;
