@@ -12,15 +12,25 @@ const Dashboard = () => {
   let [expenseScreenshots, setExpenseScreenshots] = useState([]);
   let [yearOptions, setYearOptions] = useState([]);
   let [selectedYear, setSelectedYear] = useState(yearOptions[0]);
+  let [data, setData] = useState();
+  let [isEditMode, setIsEditMode] = useState();
 
-  const expenseFormStsTrue = () => {
+  const expenseFormStsTrue = (data) => {
     setFormSts(true);
+    setIsEditMode(false);
+    setData(data);
   };
+
   const setModalStatusFalse = () => {
     setUserModalSts(false);
   };
   const expenseFormStsFalse = () => {
     setFormSts(false);
+  };
+
+  const setIsEditModeFalse = () => {
+    setFormSts(true);
+    setIsEditMode(true);
   };
 
   const onChangeSelectedYear = (e) => {
@@ -43,12 +53,18 @@ const Dashboard = () => {
   return (
     <div className=" max-w-5xl w-full">
       <section className=" w-full font-mono text-sm flex items-center justify-center bg-violet-400 rounded-lg mb-5">
-        {formSts && <ExpenseForm expenseFormStsFalse={expenseFormStsFalse} />}
+        {formSts && (
+          <ExpenseForm
+            expenseFormStsFalse={expenseFormStsFalse}
+            data={data}
+            isEditMode={isEditMode}
+          />
+        )}
 
         {!formSts && (
           <button
             className=" bg-purple-950 m-5 sm:p-5 p-2 font-bold text-lg rounded-lg"
-            onClick={expenseFormStsTrue}
+            onClick={setIsEditModeFalse}
           >
             Add New Expense
           </button>
@@ -76,7 +92,13 @@ const Dashboard = () => {
         <div></div>
         <div className="h-250"></div>
         {expenseScreenshots.map((d) => {
-          return <ExpenseCard key={d.id} data={d} />;
+          return (
+            <ExpenseCard
+              key={d.id}
+              data={d}
+              expenseFormStsTrue={expenseFormStsTrue}
+            />
+          );
         })}
       </section>
 
