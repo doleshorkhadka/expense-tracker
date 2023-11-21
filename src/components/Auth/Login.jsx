@@ -36,7 +36,7 @@ const Login = ({ modalStatusFalse }) => {
         {signupStatus || (
           <div className="my-2 flex flex-col gap-1.5 ">
             <p className=" text-center text-[17px] font-normal tracking-[160%] ">
-              Don't have an account?
+              Don&apos;t have an account?
             </p>
             <button onClick={signupFromStsTrue}>Sign up</button>
           </div>
